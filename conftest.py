@@ -6,11 +6,13 @@ from selenium.webdriver.edge.service import Service as EdgeService
 from selenium import webdriver
 
 
-
 def pytest_addoption(parser):
     parser.addoption("--browser", action="store", default="chrome")
-    parser.addoption("--drivers", action="store", default=os.path.expanduser("~\\khomiakov_a\\Desktop\\Python\\drivers\\"))
+    parser.addoption("--drivers", action="store",
+                     default=os.path.expanduser("~\\khomiakov_a\\Desktop\\Python\\drivers\\"))
     parser.addoption("--url", action="store", default="http://192.168.31.28:8081")
+
+
 @pytest.fixture
 def browser(request):
     _browser = request.config.getoption("--browser")
@@ -39,7 +41,7 @@ def browser(request):
         # options = ChromeOptions()
         # options.headless = headless
     driver.get(_url)
-    driver.url= _url
+    driver.url = _url
     driver.maximize_window()
     yield driver
     driver.quit()

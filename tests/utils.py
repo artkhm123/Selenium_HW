@@ -8,7 +8,7 @@ LASTNAME_NEW = fake.last_name()
 EMAIL_NEW = fake.email()
 PHONE_NEW = fake.phone_number()
 PASSWORD = "qwerty"
-NON_EXISTING_USERNAME = "NON_EXISTING_USERNAME"+str(random.randint(0, 10))
+NON_EXISTING_USERNAME = "NON_EXISTING_USERNAME" + str(random.randint(0, 10))
 WRONG_PASSWORD = "WRONG_PASSWORD"
 
 MIN_WAIT = 1
