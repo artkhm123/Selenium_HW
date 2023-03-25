@@ -16,18 +16,17 @@ class LoginPage(BasePage):
 
     def open(self, base_url):
         self.driver.get(base_url + self.LOGIN_PAGE_PATH)
-        WebDriverWait(self.driver, 2).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "#content")))
+        WebDriverWait(self.driver, self.default_wait).until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR, "#content")))
 
     def h1_page_title(self):
         return self.element(self.H1_TITLE).text
 
     def wrong_userdata_message(self):
-        # WebDriverWait(self.driver, 2).until(
-        #     EC.visibility_of_element_located((By.CSS_SELECTOR, ".alert.alert-danger.alert-dismissible")))
         return self.element(self.USERDATA_ALLERT).text
 
     def wrong_userdata_message_is_present(self):
-        #элемент по дефолту отсутствует
+        # элемент по дефолту отсутствует
         if len(self.driver.find_elements(*self.USERDATA_ALLERT)) == 0:
             return False
         else:

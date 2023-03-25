@@ -17,10 +17,13 @@ class RegistartionPage(BasePage):
     ACCOUNT_FRAIM = (By.CSS_SELECTOR, "#account-register")
     MODAL_TITLE = (By.CSS_SELECTOR, "h4.modal-title")
     CLOSE_BTN = (By.CSS_SELECTOR, "button.close")
+    PRIVATE_POLICY_CHECKBOX = (By.CSS_SELECTOR, "input[type=checkbox]")
+    CONTINUE_BTN = (By.CSS_SELECTOR, "input[value=Continue]")
 
     def open(self, base_url):
         self.driver.get(base_url + self.REG_PAGE_PATH)
-        WebDriverWait(self.driver, 2).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "#content")))
+        WebDriverWait(self.driver, self.default_wait).until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR, "#content")))
 
     def h1_title(self):
         return self.element(self.H1_TITLE).text
@@ -28,7 +31,7 @@ class RegistartionPage(BasePage):
     def check_title_font_color(self):
         return self.driver.element(self.H1_TITLE).value_of_css_property("color")
 
-    def check_title_font_color(self):
+    def check_title_font_size(self):
         title = self.element(self.H1_TITLE).text
         return int(title.value_of_css_property("font-size").replace('px', ''))
 
@@ -60,10 +63,17 @@ class RegistartionPage(BasePage):
         account_reg_form = self.element(self.ACCOUNT_FRAIM)
         account_reg_form.find_element(By.LINK_TEXT, "Privacy Policy").click()
 
-    def check_private_policy_modal_window_title(self):
-        # WebDriverWait(self.driver, 2).until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".modal-dialog")))
+    def private_policy_modal_window_title(self):
         return self.element(self.MODAL_TITLE).text
 
     def close_private_policy_modal_window(self):
         self.element(self.CLOSE_BTN).click()
-        WebDriverWait(self.driver, 2).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "body[class='']")))
+        WebDriverWait(self.driver, self.default_wait).until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR, "body[class='']")))
+
+    def confirm_private_policy_agreement(self):
+        self.element(self.PRIVATE_POLICY_CHECKBOX).click()
+
+    def confirm_registration(self):
+        time.sleep(0.5)
+        self.element(self.CONTINUE_BTN).click()

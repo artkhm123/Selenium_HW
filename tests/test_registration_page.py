@@ -1,6 +1,13 @@
 from selenium.webdriver.common.by import By
-from utils import *
 from PageObject.RegistartionPage import RegistartionPage
+from faker import *
+
+fake = Factory.create()
+FIRSTNAME_NEW = fake.first_name()
+LASTNAME_NEW = fake.last_name()
+EMAIL_NEW = fake.email()
+PHONE_NEW = fake.phone_number()
+PASSWORD = f"password{FIRSTNAME_NEW}"
 
 
 def test_register_page(browser):
@@ -37,7 +44,7 @@ def test_register_page(browser):
     REGISTRATION_PAGE.open_private_policy_modal_window()
 
     # 4)Проверим заглавие модального окна
-    assert "Privacy Policy" in REGISTRATION_PAGE.check_private_policy_modal_window_title()
+    assert "Privacy Policy" in REGISTRATION_PAGE.private_policy_modal_window_title()
 
     # 5)Закроем модальное окно
     REGISTRATION_PAGE.close_private_policy_modal_window()

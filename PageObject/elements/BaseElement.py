@@ -3,14 +3,11 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 
-class BasePage:
+class BaseElement:
 
     def __init__(self, driver):
         self.driver = driver
         self.default_wait = 2
-
-    def stop_widget(self):
-        self.driver.execute_script("stop('#fb-root');")
 
     def element(self, locator: tuple):
         try:

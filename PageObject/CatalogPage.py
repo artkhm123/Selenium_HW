@@ -17,7 +17,8 @@ class CatalogPage(BasePage):
 
     def open(self, base_url):
         self.driver.get(base_url + self.CATALOG_PATH)
-        WebDriverWait(self.driver, 2).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "#content")))
+        WebDriverWait(self.driver, self.default_wait).until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR, "#content")))
 
     def navigate_to_Desktops_through_side_bar(self):
         aside_block = self.element(self.SIDE_BAR)

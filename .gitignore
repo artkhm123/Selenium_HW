@@ -128,3 +128,5 @@ dmypy.json
 # Pyre type checker
 .pyre/
 .idea/
+.tests/geckodriver.log
+.tests/pytest_cache/

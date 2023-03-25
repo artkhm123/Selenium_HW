@@ -2,7 +2,6 @@ from selenium.webdriver.common.by import By
 from PageObject.BasePage import BasePage
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import time
 
 
 class MainPage(BasePage):
@@ -13,7 +12,8 @@ class MainPage(BasePage):
 
     def open(self, base_url):
         self.driver.get(base_url)
-        WebDriverWait(self.driver, 2).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "#content")))
+        WebDriverWait(self.driver, self.default_wait).until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR, "#content")))
 
     def tumb_list(self):
         return self.elements(self.TUMB_LIST)
@@ -26,7 +26,6 @@ class MainPage(BasePage):
             return True
         else:
             return False
-
 
     def add_to_wish_list_button_is_present(self, tumb_number):
         if len(self.tumb(tumb_number).find_elements(By.CSS_SELECTOR, "button[onclick*='wishlist']")) > 0:
