@@ -1,12 +1,10 @@
 from selenium.webdriver.common.by import By
 from PageObject.BasePage import BasePage
-from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
 
 
 class RegistartionPage(BasePage):
-    REG_PAGE_PATH = "/index.php?route=account/register"
     H1_TITLE = (By.CSS_SELECTOR, "#content > h1")
     FIRSTNAME = (By.CSS_SELECTOR, "#input-firstname")
     LASTNAME = (By.CSS_SELECTOR, "#input-lastname")
@@ -20,60 +18,48 @@ class RegistartionPage(BasePage):
     PRIVATE_POLICY_CHECKBOX = (By.CSS_SELECTOR, "input[type=checkbox]")
     CONTINUE_BTN = (By.CSS_SELECTOR, "input[value=Continue]")
 
-    def open(self, base_url):
-        self.driver.get(base_url + self.REG_PAGE_PATH)
-        WebDriverWait(self.driver, self.default_wait).until(
-            EC.visibility_of_element_located((By.CSS_SELECTOR, "#content")))
-
     def h1_title(self):
-        return self.element(self.H1_TITLE).text
+        return self.get_text(self.H1_TITLE)
 
-    def check_title_font_color(self):
+    def title_font_color(self):
         return self.driver.element(self.H1_TITLE).value_of_css_property("color")
 
-    def check_title_font_size(self):
-        title = self.element(self.H1_TITLE).text
+    def title_font_size(self):
+        title = self.element(self.H1_TITLE)
         return int(title.value_of_css_property("font-size").replace('px', ''))
 
     def input_firstname(self, text):
-        self.element(self.FIRSTNAME).clear()
-        self.element(self.FIRSTNAME).send_keys(text)
+        self.input_(self.FIRSTNAME, text)
 
     def input_lastname(self, text):
-        self.element(self.LASTNAME).clear()
-        self.element(self.LASTNAME).send_keys(text)
+        self.input_(self.LASTNAME, text)
 
     def input_email(self, text):
-        self.element(self.EMAIL).clear()
-        self.element(self.EMAIL).send_keys(text)
+        self.input_(self.EMAIL, text)
 
     def input_phone(self, text):
-        self.element(self.TELEPHONE).clear()
-        self.element(self.TELEPHONE).send_keys(text)
+        self.input_(self.TELEPHONE, text)
 
     def input_password(self, text):
-        self.element(self.PASSWORD).clear()
-        self.element(self.PASSWORD).send_keys(text)
+        self.input_(self.PASSWORD, text)
 
     def confirm_password(self, text):
-        self.element(self.PASSWORD_CONFIRM).clear()
-        self.element(self.PASSWORD_CONFIRM).send_keys(text)
+        self.input_(self.PASSWORD_CONFIRM, text)
 
     def open_private_policy_modal_window(self):
         account_reg_form = self.element(self.ACCOUNT_FRAIM)
         account_reg_form.find_element(By.LINK_TEXT, "Privacy Policy").click()
 
     def private_policy_modal_window_title(self):
-        return self.element(self.MODAL_TITLE).text
+        return self.get_text(self.MODAL_TITLE)
 
     def close_private_policy_modal_window(self):
-        self.element(self.CLOSE_BTN).click()
-        WebDriverWait(self.driver, self.default_wait).until(
-            EC.visibility_of_element_located((By.CSS_SELECTOR, "body[class='']")))
+        self.click_(self.CLOSE_BTN)
+        self.wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "body[class='']")))
 
     def confirm_private_policy_agreement(self):
-        self.element(self.PRIVATE_POLICY_CHECKBOX).click()
+        self.click_(self.PRIVATE_POLICY_CHECKBOX)
 
     def confirm_registration(self):
         time.sleep(0.5)
-        self.element(self.CONTINUE_BTN).click()
+        self.click_(self.CONTINUE_BTN)

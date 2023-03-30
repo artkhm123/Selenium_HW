@@ -1,7 +1,5 @@
 from selenium.webdriver.common.by import By
 from PageObject.BasePage import BasePage
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 
 
 class AdminMainPage(BasePage):
@@ -34,55 +32,47 @@ class AdminMainPage(BasePage):
 
     @property
     def h1_page_title(self):
-        return self.element(self.H1_TITLE).text
+        return self.get_text(self.H1_TITLE)
 
-    def side_menu_catalog(self):
-        return self.element(self.MENU_CATALOG)
+    def open_catalog_from_side_menu(self):
+        self.click_(self.MENU_CATALOG)
 
-    def menu_products(self):
-        return self.element(self.CATALOG_PRODUCTS)
+    def open_products_from_catalog(self):
+        self.click_(self.CATALOG_PRODUCTS)
 
-    def add_product_btn(self):
-        return self.element(self.ADD_BTN)
+    def click_add_product_btn(self):
+        self.click_(self.ADD_BTN)
 
-    def save_product_btn(self):
-        return self.element(self.SAVE_BTN)
+    def click_save_product_btn(self):
+        self.click_(self.SAVE_BTN)
 
     def input_product_name(self, text):
-        self.element(self.PRODUCT_NAME_INPUT).clear()
-        self.element(self.PRODUCT_NAME_INPUT).send_keys(text)
+        self.input_(self.PRODUCT_NAME_INPUT, text)
 
     def input_meta_tag_title(self, text):
-        self.element(self.PRODUCT_METADATA_INPUT).clear()
-        self.element(self.PRODUCT_METADATA_INPUT).send_keys(text)
+        self.input_(self.PRODUCT_METADATA_INPUT, text)
 
     def switch_tab_to(self, tab: str):
         if tab.strip().upper() == "GENERAL":
-            self.element(self.GENERAL_TAB).click()
+            self.click_(self.GENERAL_TAB)
         if tab.strip().upper() == "DATA":
-            self.element(self.DATA_TAB).click()
+            self.click_(self.DATA_TAB)
         if tab.strip().upper() == "LINKS":
-            self.element(self.LINKS_TAB).click()
+            self.click_(self.LINKS_TAB)
         # else:
         #     raise AssertionError(f"Не смог переключиться на табу {tab}")
 
     def input_product_model(self, text):
-        self.element(self.PRODUCT_MODEL_INPUT).clear()
-        self.element(self.PRODUCT_MODEL_INPUT).send_keys(text)
+        self.input_(self.PRODUCT_MODEL_INPUT, text)
 
     def input_product_price(self, text):
-        self.element(self.PRODUCT_PRICE_INPUT).clear()
-        self.element(self.PRODUCT_PRICE_INPUT).send_keys(text)
+        self.input_(self.PRODUCT_PRICE_INPUT, text)
 
     def input_product_qty(self, text):
-        self.element(self.PRODUCT_QTY_INPUT).clear()
-        self.element(self.PRODUCT_QTY_INPUT).send_keys(text)
+        self.input_(self.PRODUCT_QTY_INPUT, text)
 
     def filter_by_product_name(self, text):
-        self.element(self.FILTER_BY_NAME_INPUT).click()
-        self.element(self.FILTER_BY_NAME_INPUT).clear()
-        self.element(self.FILTER_BY_NAME_INPUT).send_keys(text)
-        self.element(self.FILTER_PANEL).click()
+        self.input_(self.FILTER_BY_NAME_INPUT, text)
 
     def filter_submit_btn(self):
         js_code = "document.querySelector('#button-filter').click();"
@@ -99,12 +89,11 @@ class AdminMainPage(BasePage):
         return result_dict
 
     def select_filtered_product(self):
-        self.element(self.FILTERED_PRODUCT_CHECKBOX).click()
+        self.click_(self.FILTERED_PRODUCT_CHECKBOX)
 
     def delete_product(self):
-        self.element(self.DELETE_BTN).click()
-        alert = WebDriverWait(self.driver, 2).until(EC.alert_is_present())
-        alert.accept()
+        self.click_(self.DELETE_BTN)
+        self.accept_allert()
 
-    def no_results_is_present(self):
+    def no_results_message_is_present(self):
         return self.element(self.RESULT_LIST).find_element(*self.NO_RESULT_TEXT).text

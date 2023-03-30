@@ -10,33 +10,35 @@ class HeaderElement(BasePage):
     EUR = (By.CSS_SELECTOR, "button[name='EUR']")
     GBP = (By.CSS_SELECTOR, "button[name='GBP']")
     LOGOUT_FROM_ADMIN_PAGE = (By.CSS_SELECTOR, "#header > div > ul > li:nth-child(2) > a > span")
-    USER_DDROPDOWN = (By.CSS_SELECTOR, "#header > div > ul > li.dropdown > a")
+    USER_DROPDOWN = (By.CSS_SELECTOR, "#header > div > ul > li.dropdown > a")
+    THIS = (By.CSS_SELECTOR, ".alert-success")
 
     def __init__(self, driver):
         super().__init__(driver=driver)
 
-    # @property
-    # def change_currency_btn(self):
-    #     return self.element(self.CURRENCY_BTN)
-
     @property
     def choose_USD(self):
-        return self.element(self.USD)
+        self.click_(self.USD)
 
     def change_currency_to(self, currency: str):
-        time.sleep(1)
-        self.element(self.CURRENCY_BTN).click()
-        time.sleep(1)
+        time.sleep(0.5)
+        self.click_(self.CURRENCY_BTN)
+        time.sleep(0.5)
         if currency == "USD":
-            self.element(self.USD).click()
+            self.click_(self.USD)
         if currency == "EUR":
-            self.element(self.EUR).click()
+            self.click_(self.EUR)
         if currency == "GBP":
-            self.element(self.GBP).click()
+            self.click_(self.GBP)
 
-    def logout_from_admin_page(self):
+    def logout_btn(self):
+        time.sleep(0.5)
         return self.element(self.LOGOUT_FROM_ADMIN_PAGE)
+
+    def logout_from_admin_panel(self):
+        time.sleep(0.5)
+        self.click_(self.LOGOUT_FROM_ADMIN_PAGE)
 
     @property
     def user_name(self):
-        return self.element(self.USER_DDROPDOWN).text
+        return self.get_text(self.USER_DROPDOWN)

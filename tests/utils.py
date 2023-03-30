@@ -20,3 +20,9 @@ IPHONE_PRICE = {
     "GBP": "£75.46",
     "EUR": "96.66€"
 }
+
+LOGIN_PAGE_PATH = "/admin"
+CATALOG_PATH = "/component"
+REG_PAGE_PATH = "/index.php?route=account/register"
+iPHONE_PAGE = "/iphone"
+MAC_PAGE = "/macbook"
