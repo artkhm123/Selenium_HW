@@ -1,11 +1,10 @@
-import time
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+import pytest
+
+from PageObject.ProductCardPage import ProductCardPage
 
 
-
-def test_product_card_page (browser):
+@pytest.mark.parametrize("product", ["/iphone", "/macbook"])
+def test_product_card_page(browser, product):
     """
     Предусловие: в корзине нет товаров
     Тест: Поиск элементов
@@ -15,24 +14,26 @@ def test_product_card_page (browser):
     4) Найдем и кликнем по кнопке Add to cart
     5) Найдем новое значение "в корзине"
     """
-    browser.get(browser.url + "/iphone")
-    browser.implicitly_wait(60)
-    #1)найдем значение которое отображается "в корзине" перед началом теста
-    cart_total_before = browser.find_element(By.CSS_SELECTOR, "#cart-total").text
-    assert "0 item(s) - $0.00" in cart_total_before
 
-    #2)найдем цену товара
-    product_price_float = float(browser.find_element(By.CSS_SELECTOR,"li:nth-child(1) > h2").text.replace('$', ''))
+    PRODUCT_CARD_PAGE = ProductCardPage(browser)
+    PRODUCT_CARD_PAGE.open(browser.url + product)
+    PRODUCT_CARD_PAGE.stop_widget()
 
-    #3)найдем количество товара
-    product_qty = int(browser.find_element(By.CSS_SELECTOR, "#input-quantity").get_attribute("value"))
+    # 1) Найдем значение которое отображается "в корзине" перед началом теста
+    cart_counter_before = PRODUCT_CARD_PAGE.cart_counter()
 
-    #4)найдем и кликнем по кнопке Add to cart
-    browser.find_element(By.CSS_SELECTOR, "#button-cart").click()
-    time.sleep(0.5)
+    # 2) Найдем цену товара
+    product_price_float = float(PRODUCT_CARD_PAGE.get_product_price().replace('$', ''))
 
-    #5)проверим новое значение "в корзине"
-    cart_total_after = browser.find_element(By.CSS_SELECTOR, "#cart-total").text
-    assert cart_total_before != cart_total_after
-    expected_cart_btn_value = str(product_qty) + " item(s) - $" + str(format(product_qty * product_price_float,'.2f'))
-    assert cart_total_after == expected_cart_btn_value
+    # 3) Найдем количество товара
+    product_qty = PRODUCT_CARD_PAGE.product_qty()
+
+    # 4) Найдем и кликнем по кнопке Add to cart
+    PRODUCT_CARD_PAGE.add_to_cart_btn_click()
+
+    # 5) Найдем новое значение "в корзине"
+    cart_counter_after = PRODUCT_CARD_PAGE.cart_counter()
+
+    # 6) Сравним значение каунтера до и после добавления продукта в корзину
+    assert cart_counter_before != cart_counter_after
+    assert cart_counter_after == f"{str(product_qty)} item(s) - ${str(format(product_qty * product_price_float, '.2f'))}"
