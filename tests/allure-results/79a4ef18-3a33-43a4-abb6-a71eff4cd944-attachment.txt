@@ -1,0 +1,6 @@
+INFO     test_incorrect_login:conftest.py:53 ===> Test test_incorrect_login started at 2023-03-31 01:44:33.117905
+INFO     test_incorrect_login:conftest.py:94 Browser:<function browser at 0x000001613F2E00D0>
+INFO     LoginPage:BasePage.py:26 Opening url: http://192.168.31.28:8081/admin
+INFO     LoginPage:BasePage.py:28 Opening url: http://192.168.31.28:8081/admin
+INFO     LoginPage:BasePage.py:93 Get text from element ('css selector', 'h1.panel-title')
+INFO     test_incorrect_login:conftest.py:101 ===> Test test_incorrect_login finished at 2023-03-31 01:44:37.260440

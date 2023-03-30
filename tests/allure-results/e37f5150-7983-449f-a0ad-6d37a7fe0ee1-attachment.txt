@@ -1,0 +1,10 @@
+INFO     test_incorrect_login:conftest.py:53 ===> Test test_incorrect_login started at 2023-03-31 01:46:07.540047
+INFO     test_incorrect_login:conftest.py:94 Browser:<function browser at 0x0000018B227F00D0>
+INFO     LoginPage:BasePage.py:26 Opening url: http://192.168.31.28:8081/admin
+INFO     LoginPage:BasePage.py:28 Opening url: http://192.168.31.28:8081/admin
+INFO     LoginPage:BasePage.py:93 Get text from element ('css selector', 'h1.panel-title')
+INFO     LoginPage:BasePage.py:49 Input NON_EXISTING_USERNAME5 in field ('css selector', '#input-username')
+INFO     LoginPage:BasePage.py:49 Input WRONG_PASSWORD in field ('css selector', '#input-password')
+INFO     LoginPage:BasePage.py:39 Click on element: ('css selector', 'button[type=submit]')
+INFO     LoginPage:BasePage.py:93 Get text from element ('css selector', '.alert.alert-danger.alert-dismissible')
+INFO     test_incorrect_login:conftest.py:101 ===> Test test_incorrect_login finished at 2023-03-31 01:46:11.030640

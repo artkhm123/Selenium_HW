@@ -8,7 +8,7 @@ class AccountSuccessPage(BasePage):
     CONTINUE = (By.LINK_TEXT, "Continue")
 
     def h1_title(self):
-        return self.element(self.H1_TITLE).text
+        return self.get_text(self.H1_TITLE)
 
     def continue_btn(self):
-        self.element(self.CONTINUE)
+        return self.element(self.CONTINUE)

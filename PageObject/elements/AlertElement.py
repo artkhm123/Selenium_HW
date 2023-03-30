@@ -1,13 +1,13 @@
 import time
 from selenium.webdriver.common.by import By
 
-from PageObject.elements.BaseElement import BaseElement
+from PageObject.BasePage import BasePage
 
 
-class AlertElement(BaseElement):
+class AlertElement(BasePage):
     ALLERT_SUCCESS = (By.CSS_SELECTOR, ".alert-success")
 
     @property
     def comparison_message(self):
-        time.sleep(1)
-        return self.element(self.ALLERT_SUCCESS).text
+        time.sleep(0.5)
+        return self.get_text(self.ALLERT_SUCCESS)
