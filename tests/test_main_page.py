@@ -1,7 +1,10 @@
 from PageObject.MainPage import MainPage
 from PageObject.elements.AlertElement import AlertElement
+import allure
 
 
+@allure.story("Тесты на поиск элементов")
+@allure.title("Main page. Проверка наличия элементов на странице")
 def test_main_page_elements(browser):
     """
     Тест: Проверка наличия элементов:
@@ -14,20 +17,23 @@ def test_main_page_elements(browser):
     """
 
     MAIN_PAGE = MainPage(browser)
-    MAIN_PAGE.open(browser.url)
+    MAIN_PAGE.open_(browser.url)
 
-    # 1)проверка что продуктовых тумбы 4шт
-    amount_of_tumbs = len(MAIN_PAGE.tumb_list())
-    assert amount_of_tumbs == 4
+    with allure.step('1)проверка что продуктовых тумбы 4шт'):
+        amount_of_tumbs = len(MAIN_PAGE.tumb_list())
+        assert amount_of_tumbs == 4
 
-    # 2)проверка что у каждой тумбы есть кнопки "Add to cart", "Compare this product", "Add to wishlist"
+    with allure.step(
+            '2)проверка что у каждой тумбы есть кнопки "Add to cart", "Compare this product", "Add to wishlist"'):
+        for number in range(amount_of_tumbs):
+            assert MAIN_PAGE.add_to_cart_button_is_present(number)
+            assert MAIN_PAGE.add_to_wish_list_button_is_present(number)
+            assert MAIN_PAGE.add_to_comparison_button_is_present(number)
+
     for number in range(amount_of_tumbs):
-        assert MAIN_PAGE.add_to_cart_button_is_present(number)
-        assert MAIN_PAGE.add_to_wish_list_button_is_present(number)
-        assert MAIN_PAGE.add_to_comparison_button_is_present(number)
-
-    # 3)проверка что при клике на "compare this product" появляется блок "Success: You have added #название_продукта to your product comparison!"
-    for number in range(amount_of_tumbs):
-        product_name = MAIN_PAGE.click_compare_this_product(number)
-        assert f"Success: You have added {product_name} to your product comparison!" in AlertElement(
-            browser).comparison_message
+        with allure.step(
+                '3)проверка что при клике на "compare this product" появляется блок "Success: You have added #название_продукта to your product comparison!"'):
+            product_name = MAIN_PAGE.click_compare_this_product(number)
+            with allure.step(f'Продукт {product_name}'):
+                assert f"FAILED ON PURPOSE Success: You have added {product_name} to your product comparison!" in AlertElement(
+                    browser).comparison_message
